@@ -89,12 +89,6 @@ export default function DigitalIDPortal({ activeTab, setActiveTab }) {
       setIsMinting(false);
       setMintedCard(newPass);
       setAuditLogs(getAuditLogs());
-      
-      confetti({
-        particleCount: 80,
-        spread: 80,
-        origin: { y: 0.5 }
-      });
     }, 1200);
   };
 

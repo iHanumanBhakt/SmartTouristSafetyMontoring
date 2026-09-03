@@ -1,18 +1,9 @@
 import React from 'react';
 import { QRCodeSVG } from 'qrcode.react';
-import { ShieldCheck, Lock, Calendar, MapPin, User, Phone, Cpu, CheckCircle2, AlertTriangle, Download, ExternalLink } from 'lucide-react';
-import confetti from 'canvas-confetti';
+import { ShieldCheck, Lock, Calendar, MapPin, User, Phone, CheckCircle2, Download, Building2 } from 'lucide-react';
 
 export default function DigitalIDCard({ idData, onClose }) {
   if (!idData) return null;
-
-  const triggerConfetti = () => {
-    confetti({
-      particleCount: 60,
-      spread: 70,
-      origin: { y: 0.6 }
-    });
-  };
 
   const handleDownload = () => {
     window.print();
@@ -29,183 +20,91 @@ export default function DigitalIDCard({ idData, onClose }) {
   });
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto">
-      <div className="relative w-full max-w-xl bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden p-6 sm:p-8 animate-in fade-in zoom-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm overflow-y-auto">
+      <div className="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-xl shadow-xl overflow-hidden p-6 space-y-6">
         
-        {/* Top Glow & Header */}
-        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-500"></div>
-
-        <div className="flex items-start justify-between mb-6">
+        {/* Header */}
+        <div className="flex items-start justify-between border-b border-slate-800 pb-4">
           <div className="flex items-center gap-3">
-            <div className="p-3 bg-cyan-950/80 border border-cyan-500/40 rounded-xl text-cyan-400">
-              <ShieldCheck className="w-7 h-7" />
+            <div className="p-2.5 bg-slate-800 border border-slate-700 rounded-lg text-slate-100">
+              <Building2 className="w-6 h-6 text-blue-400" />
             </div>
             <div>
-              <h3 className="text-xl font-bold text-slate-100 flex items-center gap-2">
-                Blockchain Tourist Digital Pass
-                <span className="px-2 py-0.5 text-xs font-mono bg-emerald-950 text-emerald-400 border border-emerald-800 rounded-md">
+              <div className="flex items-center gap-2">
+                <h3 className="text-base font-bold text-slate-100">National Verifiable Digital Pass</h3>
+                <span className="px-2 py-0.5 text-[10px] font-mono font-semibold bg-emerald-950 text-emerald-300 border border-emerald-800 rounded">
                   VERIFIED ON-CHAIN
                 </span>
-              </h3>
+              </div>
               <p className="text-xs text-slate-400 font-mono mt-0.5">
-                Sovereign Smart Contract • Ministry of Tourism & Police Node
+                Consortium Ledger • W3C DID Standard
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-200 p-1.5 rounded-lg bg-slate-800/60 hover:bg-slate-800 transition"
+            className="text-slate-400 hover:text-slate-200 p-1.5 rounded bg-slate-800 transition-colors text-xs font-bold"
           >
-            ✕
+            ✕ Close
           </button>
         </div>
 
-        {/* Digital Pass Card Container */}
-        <div className="rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 border border-cyan-500/30 p-6 shadow-inner relative overflow-hidden">
+        {/* Card Body */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-center">
           
-          {/* Watermark Background Icon */}
-          <div className="absolute -right-8 -bottom-8 opacity-5 text-cyan-400 pointer-events-none">
-            <ShieldCheck className="w-64 h-64" />
+          {/* QR Code */}
+          <div className="flex flex-col items-center justify-center p-3 bg-white rounded-lg border border-slate-700">
+            <QRCodeSVG value={qrPayload} size={130} level="H" includeMargin={true} />
+            <span className="text-[9px] font-mono text-slate-700 font-bold mt-1">OFFLINE SCANNABLE</span>
           </div>
 
-          {/* Card Top Row: Status & DID */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800/80">
+          {/* Details */}
+          <div className="sm:col-span-2 space-y-2 text-xs">
             <div>
-              <span className="text-[10px] text-slate-400 font-mono uppercase tracking-wider block">Decentralized Identifier (DID)</span>
-              <span className="text-xs font-mono font-bold text-cyan-400 break-all">
-                {idData.did}
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                {idData.status || "VALID"}
-              </span>
-            </div>
-          </div>
-
-          {/* Card Main Body: QR & Key Information */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 my-5 items-center">
-            
-            {/* QR Code Column */}
-            <div className="flex flex-col items-center justify-center p-3 bg-white rounded-xl shadow-lg border border-slate-200">
-              <QRCodeSVG
-                value={qrPayload}
-                size={140}
-                level="H"
-                includeMargin={true}
-              />
-              <span className="text-[10px] text-slate-700 font-mono font-semibold mt-1">
-                SCAN TO VERIFY ZKP
-              </span>
+              <span className="text-[10px] text-slate-500 font-mono uppercase block">Tourist Name:</span>
+              <span className="font-bold text-sm text-slate-100">{idData.publicData?.touristName}</span>
             </div>
 
-            {/* Tourist Details Column */}
-            <div className="sm:col-span-2 space-y-3">
+            <div>
+              <span className="text-[10px] text-slate-500 font-mono uppercase block">Decentralized ID (DID):</span>
+              <span className="font-mono text-blue-400 break-all">{idData.did}</span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 pt-1">
               <div>
-                <span className="text-[10px] text-slate-400 font-mono uppercase">Tourist Full Name</span>
-                <p className="text-base font-bold text-slate-100 flex items-center gap-2">
-                  <User className="w-4 h-4 text-cyan-400" />
-                  {idData.publicData?.touristName}
-                </p>
+                <span className="text-[10px] text-slate-500 font-mono block">VALID UNTIL:</span>
+                <span className="font-mono text-slate-200">{idData.validTo}</span>
               </div>
-
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <div>
-                  <span className="text-[10px] text-slate-400 font-mono uppercase">Nationality</span>
-                  <p className="font-semibold text-slate-200">{idData.publicData?.nationality}</p>
-                </div>
-                <div>
-                  <span className="text-[10px] text-slate-400 font-mono uppercase">KYC Doc Masked</span>
-                  <p className="font-mono font-semibold text-cyan-300">{idData.publicData?.documentIdMasked}</p>
-                </div>
+              <div>
+                <span className="text-[10px] text-slate-500 font-mono block">EMERGENCY PHONE:</span>
+                <span className="font-mono text-slate-200">{idData.publicData?.emergencyPhone}</span>
               </div>
-
-              <div className="grid grid-cols-2 gap-2 text-xs pt-1">
-                <div>
-                  <span className="text-[10px] text-slate-400 font-mono uppercase">Valid From</span>
-                  <p className="font-mono text-emerald-400 flex items-center gap-1">
-                    <Calendar className="w-3 h-3" />
-                    {idData.validFrom}
-                  </p>
-                </div>
-                <div>
-                  <span className="text-[10px] text-slate-400 font-mono uppercase">Valid Until</span>
-                  <p className="font-mono text-amber-400 flex items-center gap-1">
-                    <Calendar className="w-3 h-3" />
-                    {idData.validTo}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Itinerary & Emergency Contacts */}
-          <div className="pt-4 border-t border-slate-800/80 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-            <div>
-              <span className="text-[10px] text-slate-400 font-mono uppercase flex items-center gap-1 mb-1">
-                <MapPin className="w-3 h-3 text-cyan-400" /> Authorized Itinerary
-              </span>
-              <div className="flex flex-wrap gap-1">
-                {idData.publicData?.itinerary?.map((item, idx) => (
-                  <span key={idx} className="px-2 py-0.5 text-[10px] font-medium bg-slate-800 text-slate-300 rounded border border-slate-700">
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <span className="text-[10px] text-slate-400 font-mono uppercase flex items-center gap-1 mb-1">
-                <Phone className="w-3 h-3 text-rose-400" /> Emergency Contact
-              </span>
-              <p className="font-semibold text-slate-200">
-                {idData.publicData?.emergencyContactName}
-              </p>
-              <p className="font-mono text-slate-400 text-[11px]">
-                {idData.publicData?.emergencyPhone}
-              </p>
-            </div>
-          </div>
-
-          {/* Blockchain Hashes & ZKP Seal */}
-          <div className="mt-4 p-3 bg-slate-900/90 rounded-xl border border-slate-800 text-[10px] font-mono space-y-1">
-            <div className="flex justify-between items-center text-slate-400">
-              <span>Tx Hash:</span>
-              <span className="text-cyan-400 truncate max-w-[260px]">{idData.txHash}</span>
-            </div>
-            <div className="flex justify-between items-center text-slate-400">
-              <span>Issued By:</span>
-              <span className="text-slate-300">{idData.issuedBy}</span>
-            </div>
-            <div className="flex justify-between items-center text-slate-400 pt-1">
-              <span className="flex items-center gap-1 text-emerald-400">
-                <Lock className="w-3 h-3" /> ZK-Proof Hash
-              </span>
-              <span className="text-emerald-400">{idData.zeroKnowledgeProof?.zkHash}</span>
             </div>
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex items-center justify-between gap-3 mt-6">
+        {/* Cryptographic Hashes */}
+        <div className="p-3 bg-slate-950 border border-slate-800 rounded-lg space-y-1.5 font-mono text-[11px] text-slate-400">
+          <div className="flex items-center justify-between">
+            <span>ZKP Identity Hash:</span>
+            <span className="text-slate-200">{idData.kycHash?.substring(0, 18)}...</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span>Transaction Hash:</span>
+            <span className="text-blue-400">{idData.txHash?.substring(0, 18)}...</span>
+          </div>
+        </div>
+
+        {/* Action Button */}
+        <div className="flex justify-end gap-3 pt-2">
           <button
-            onClick={triggerConfetti}
-            className="px-4 py-2 text-xs font-semibold rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition"
+            onClick={handleDownload}
+            className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs rounded-lg transition-colors flex items-center justify-center gap-2"
           >
-            🎉 Celebrate Verification
+            <Download className="w-4 h-4" /> Print / Export Official Digital Pass
           </button>
-
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleDownload}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-semibold text-xs shadow-lg shadow-cyan-950/60 transition-all"
-            >
-              <Download className="w-4 h-4" />
-              Download / Print Digital Pass
-            </button>
-          </div>
         </div>
+
       </div>
     </div>
   );
