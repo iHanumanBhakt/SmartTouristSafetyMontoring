@@ -1,8 +1,8 @@
 import React from 'react';
-import { ShieldCheck, Cpu, Search, Sparkles, Layers, QrCode, FileText, Activity } from 'lucide-react';
+import { ShieldCheck, Sparkles, Smartphone, ShieldAlert, Layers } from 'lucide-react';
 import { BLOCKCHAIN_NETWORK } from '../services/blockchainService';
 
-export default function Navbar({ activeTab, setActiveTab }) {
+export default function Navbar({ mainView, setMainView }) {
   return (
     <header className="sticky top-0 z-50 glass-panel border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -23,52 +23,51 @@ export default function Navbar({ activeTab, setActiveTab }) {
                 </span>
               </div>
               <p className="text-xs text-slate-400 font-medium hidden sm:block">
-                Smart Tourist Safety & Sovereign Blockchain Digital ID
+                Smart Tourist Safety Monitoring & Sovereign Blockchain Ecosystem
               </p>
             </div>
           </div>
 
-          {/* Navigation Tabs */}
+          {/* Top-Level Module Tabs */}
           <nav className="flex items-center gap-1 sm:gap-2">
             <button
-              onClick={() => setActiveTab('mint')}
+              onClick={() => setMainView('blockchain')}
               className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
-                activeTab === 'mint'
+                mainView === 'blockchain'
                   ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/40 shadow-lg shadow-cyan-950/50'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
               }`}
             >
               <Sparkles className="w-4 h-4" />
-              <span>Issue Digital ID</span>
+              <span>1. Blockchain ID Platform</span>
             </button>
 
             <button
-              onClick={() => setActiveTab('verify')}
+              onClick={() => setMainView('tourist_app')}
               className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
-                activeTab === 'verify'
-                  ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/40 shadow-lg shadow-cyan-950/50'
+                mainView === 'tourist_app'
+                  ? 'bg-amber-500/15 text-amber-400 border border-amber-500/40 shadow-lg shadow-amber-950/50'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
               }`}
             >
-              <QrCode className="w-4 h-4" />
-              <span>Authority Verification</span>
+              <Smartphone className="w-4 h-4" />
+              <span>2. Tourist App & IoT Band</span>
             </button>
 
             <button
-              onClick={() => setActiveTab('ledger')}
+              onClick={() => setMainView('police_dashboard')}
               className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
-                activeTab === 'ledger'
-                  ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/40 shadow-lg shadow-cyan-950/50'
+                mainView === 'police_dashboard'
+                  ? 'bg-rose-500/15 text-rose-400 border border-rose-500/40 shadow-lg shadow-rose-950/50'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
               }`}
             >
-              <Layers className="w-4 h-4" />
-              <span className="hidden md:inline">Ledger Explorer</span>
-              <span className="md:hidden">Ledger</span>
+              <ShieldAlert className="w-4 h-4" />
+              <span>3. Police GIS Command</span>
             </button>
           </nav>
 
-          {/* Blockchain Network Badge */}
+          {/* Network Status Badge */}
           <div className="hidden lg:flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-800 text-xs">
             <div className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -76,10 +75,10 @@ export default function Navbar({ activeTab, setActiveTab }) {
             </div>
             <div className="flex flex-col">
               <span className="font-mono font-semibold text-emerald-400 text-[11px]">
-                Polygon PoS Testnet
+                Polygon PoS Consortium
               </span>
               <span className="text-[10px] text-slate-500 font-mono">
-                PoA Consensus • 2.1s Block
+                5 Nodes • ZK-SNARK Privacy
               </span>
             </div>
           </div>
